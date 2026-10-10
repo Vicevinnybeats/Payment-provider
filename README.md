@@ -1,11 +1,14 @@
 # VVB Sales
 
-A small phone app for logging beat sales and tracking them against a monthly goal.
+A small phone app for logging beat sales and tracking them against your goals.
 
-- Goal ring with % of your monthly goal and the daily pace needed to hit it
-- Today / month / average / all-time totals
-- 30-day sales chart and top beats for the month
-- Milestone notifications at 25 / 50 / 75 / 100% of the goal
+- Week / Month / Year views with their own goals, progress ring and daily pace
+- Comparison with the same point in the previous week / month / year
+- Sales chart, top beats, sales count, average sale and today's total
+- Log sales with amount, beat, type (lease, exclusive, custom…), platform, date and a note
+- Tap any sale to edit or delete it
+- Milestone notifications at 25 / 50 / 75 / 100% of each goal
+- Light and dark mode (follows your phone)
 - CSV export, plus backup / restore (JSON)
 - Works offline once installed; all data stays on the device
 

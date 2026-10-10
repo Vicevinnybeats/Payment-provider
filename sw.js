@@ -1,5 +1,5 @@
 // Offline cache so the app opens without a connection once installed.
-const CACHE = 'vvb-sales-v1';
+const CACHE = 'vvb-sales-v2';
 const ASSETS = [
   './',
   'index.html',

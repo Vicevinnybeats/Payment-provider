@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0d0f14">
+  <meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0c0d10" media="(prefers-color-scheme: dark)">
   <title>VVB Sales</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -12,112 +13,149 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="brand"><span class="logo">VVB</span> Sales</div>
-    <button class="icon-btn" id="openSettings" aria-label="Settings">⚙</button>
+    <div>
+      <div class="hello muted" id="hello">Hey</div>
+      <div class="brand"><span class="dot"></span>VVB Sales</div>
+    </div>
+    <button class="icon-btn" id="openSettings" aria-label="Settings">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+    </button>
   </header>
 
   <main>
-    <section class="card goal">
-      <div class="ring-wrap">
-        <svg viewBox="0 0 120 120" class="ring">
-          <circle cx="60" cy="60" r="52" class="ring-bg"/>
-          <circle cx="60" cy="60" r="52" class="ring-fg" id="ringFg"/>
-        </svg>
-        <div class="ring-label">
-          <div class="pct" id="goalPct">0%</div>
-          <div class="muted small">of goal</div>
+    <nav class="segmented" id="periodTabs" role="tablist">
+      <button role="tab" data-period="week">Week</button>
+      <button role="tab" data-period="month">Month</button>
+      <button role="tab" data-period="year">Year</button>
+    </nav>
+
+    <section class="card hero">
+      <div class="hero-top">
+        <div>
+          <div class="label" id="periodLabel">This month</div>
+          <div class="big" id="periodTotal">$0.00</div>
+          <div class="delta" id="delta"></div>
+        </div>
+        <div class="ring-wrap">
+          <svg viewBox="0 0 120 120" class="ring">
+            <circle cx="60" cy="60" r="52" class="ring-bg"/>
+            <circle cx="60" cy="60" r="52" class="ring-fg" id="ringFg"/>
+          </svg>
+          <div class="ring-label" id="goalPct">0%</div>
         </div>
       </div>
-      <div class="goal-text">
-        <div class="muted small">This month</div>
-        <div class="big" id="monthTotal">$0.00</div>
-        <div class="muted small" id="goalLine">Goal: $0</div>
-        <div class="muted small" id="paceLine"></div>
+      <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="hero-foot">
+        <span id="goalLine">Goal $0</span>
+        <span id="paceLine"></span>
       </div>
     </section>
 
     <section class="stats">
-      <div class="card stat"><div class="muted small">Today</div><div class="mid" id="todayTotal">$0</div></div>
-      <div class="card stat"><div class="muted small">Sales this month</div><div class="mid" id="monthCount">0</div></div>
-      <div class="card stat"><div class="muted small">Avg sale</div><div class="mid" id="avgSale">$0</div></div>
-      <div class="card stat"><div class="muted small">All time</div><div class="mid" id="allTotal">$0</div></div>
+      <div class="stat"><div class="label">Sales</div><div class="mid" id="statCount">0</div></div>
+      <div class="stat"><div class="label">Avg sale</div><div class="mid" id="statAvg">$0</div></div>
+      <div class="stat"><div class="label">Today</div><div class="mid" id="statToday">$0</div></div>
     </section>
 
     <section class="card">
       <div class="card-head">
-        <h2>Last 30 days</h2>
-        <span class="muted small" id="chartSum"></span>
+        <h2 id="chartTitle">Daily sales</h2>
+        <span class="label" id="chartBest"></span>
       </div>
-      <div id="chart" class="chart" role="img" aria-label="Daily sales for the last 30 days"></div>
+      <div id="chart" class="chart" role="img" aria-label="Sales chart"></div>
+      <div class="chart-axis" id="chartAxis"></div>
     </section>
 
     <section class="card">
-      <div class="card-head">
-        <h2>Top beats</h2>
-      </div>
+      <div class="card-head"><h2>Top beats</h2></div>
       <ul id="topBeats" class="list"></ul>
     </section>
 
     <section class="card">
-      <div class="card-head">
-        <h2>Recent sales</h2>
-      </div>
+      <div class="card-head"><h2>Recent sales</h2><span class="label">Tap to edit</span></div>
       <ul id="salesList" class="list"></ul>
     </section>
   </main>
 
-  <button class="fab" id="openAdd" aria-label="Log a sale">＋ Log sale</button>
+  <button class="fab" id="openAdd" aria-label="Log a sale">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+    Log sale
+  </button>
 
-  <!-- Log sale sheet -->
-  <dialog id="addSheet" class="sheet">
-    <form id="addForm" method="dialog">
-      <h2>Log a sale</h2>
-      <label>Amount
-        <input name="amount" type="number" inputmode="decimal" step="0.01" min="0.01" required placeholder="49.99">
+  <!-- Add / edit sale -->
+  <dialog id="saleSheet" class="sheet">
+    <form id="saleForm" method="dialog">
+      <div class="grabber"></div>
+      <h2 id="saleTitle">Log a sale</h2>
+      <label class="amount-field">
+        <span class="cur" id="saleCur">$</span>
+        <input name="amount" type="number" inputmode="decimal" step="0.01" min="0.01" required placeholder="0.00" aria-label="Amount">
       </label>
       <label>Beat / product
-        <input name="beat" type="text" list="beatOptions" maxlength="60" placeholder="e.g. Midnight Drive (lease)">
+        <input name="beat" type="text" list="beatOptions" maxlength="60" placeholder="e.g. Midnight Drive">
         <datalist id="beatOptions"></datalist>
       </label>
-      <label>Where
-        <select name="source">
-          <option>BeatStars</option>
-          <option>Stripe</option>
-          <option>PayPal</option>
-          <option>Cash App</option>
-          <option>Cash</option>
-          <option>Other</option>
-        </select>
-      </label>
-      <label>Date
-        <input name="date" type="date" required>
-      </label>
+      <div class="field">
+        <span>Type</span>
+        <div class="chips" id="typeChips">
+          <button type="button" data-v="Lease">Lease</button>
+          <button type="button" data-v="Exclusive">Exclusive</button>
+          <button type="button" data-v="Custom">Custom</button>
+          <button type="button" data-v="Mix/Master">Mix/Master</button>
+          <button type="button" data-v="Other">Other</button>
+        </div>
+      </div>
       <div class="row">
+        <label>Where
+          <select name="source">
+            <option>BeatStars</option>
+            <option>Stripe</option>
+            <option>PayPal</option>
+            <option>Cash App</option>
+            <option>Cash</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label>Date
+          <input name="date" type="date" required>
+        </label>
+      </div>
+      <label><span>Note <span class="opt">(optional)</span></span>
+        <input name="note" type="text" maxlength="80" placeholder="Buyer, IG handle…">
+      </label>
+      <div class="row actions">
+        <button type="button" class="btn danger" id="deleteSale" hidden>Delete</button>
         <button type="button" class="btn ghost" data-close>Cancel</button>
-        <button type="submit" class="btn primary">Save</button>
+        <button type="submit" class="btn primary" id="saleSubmit">Save</button>
       </div>
     </form>
   </dialog>
 
-  <!-- Settings sheet -->
+  <!-- Settings -->
   <dialog id="settingsSheet" class="sheet">
     <form id="settingsForm" method="dialog">
-      <h2>Settings</h2>
-      <label>Monthly goal
-        <input name="goal" type="number" inputmode="decimal" min="1" step="1" required>
+      <div class="grabber"></div>
+      <h2>Goals &amp; settings</h2>
+      <p class="hint">Set 0 to turn a goal off.</p>
+      <div class="row three">
+        <label>Weekly goal<input name="goalWeek" type="number" inputmode="decimal" min="0" step="1"></label>
+        <label>Monthly goal<input name="goalMonth" type="number" inputmode="decimal" min="0" step="1"></label>
+        <label>Yearly goal<input name="goalYear" type="number" inputmode="decimal" min="0" step="1"></label>
+      </div>
+      <div class="row">
+        <label>Your name<input name="name" type="text" maxlength="24" placeholder="Vinny"></label>
+        <label>Currency<input name="currency" type="text" maxlength="3" required></label>
+      </div>
+      <label class="switch">
+        <input name="notify" type="checkbox">
+        <span>Goal milestone notifications<br><small class="muted">At 25, 50, 75 and 100%</small></span>
       </label>
-      <label>Currency symbol
-        <input name="currency" type="text" maxlength="3" required>
-      </label>
-      <label class="check">
-        <input name="notify" type="checkbox"> Milestone notifications (25 / 50 / 75 / 100%)
-      </label>
-      <div class="row wrap">
+      <div class="row">
         <button type="button" class="btn ghost" id="exportCsv">Export CSV</button>
         <button type="button" class="btn ghost" id="exportJson">Backup</button>
         <label class="btn ghost file">Restore<input type="file" id="importJson" accept="application/json" hidden></label>
       </div>
-      <div class="row">
+      <div class="row actions">
         <button type="button" class="btn ghost" data-close>Close</button>
         <button type="submit" class="btn primary">Save</button>
       </div>
