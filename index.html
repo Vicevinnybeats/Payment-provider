@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0f14">
+  <title>VVB Sales</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="logo">VVB</span> Sales</div>
+    <button class="icon-btn" id="openSettings" aria-label="Settings">⚙</button>
+  </header>
+
+  <main>
+    <section class="card goal">
+      <div class="ring-wrap">
+        <svg viewBox="0 0 120 120" class="ring">
+          <circle cx="60" cy="60" r="52" class="ring-bg"/>
+          <circle cx="60" cy="60" r="52" class="ring-fg" id="ringFg"/>
+        </svg>
+        <div class="ring-label">
+          <div class="pct" id="goalPct">0%</div>
+          <div class="muted small">of goal</div>
+        </div>
+      </div>
+      <div class="goal-text">
+        <div class="muted small">This month</div>
+        <div class="big" id="monthTotal">$0.00</div>
+        <div class="muted small" id="goalLine">Goal: $0</div>
+        <div class="muted small" id="paceLine"></div>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="card stat"><div class="muted small">Today</div><div class="mid" id="todayTotal">$0</div></div>
+      <div class="card stat"><div class="muted small">Sales this month</div><div class="mid" id="monthCount">0</div></div>
+      <div class="card stat"><div class="muted small">Avg sale</div><div class="mid" id="avgSale">$0</div></div>
+      <div class="card stat"><div class="muted small">All time</div><div class="mid" id="allTotal">$0</div></div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Last 30 days</h2>
+        <span class="muted small" id="chartSum"></span>
+      </div>
+      <div id="chart" class="chart" role="img" aria-label="Daily sales for the last 30 days"></div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Top beats</h2>
+      </div>
+      <ul id="topBeats" class="list"></ul>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Recent sales</h2>
+      </div>
+      <ul id="salesList" class="list"></ul>
+    </section>
+  </main>
+
+  <button class="fab" id="openAdd" aria-label="Log a sale">＋ Log sale</button>
+
+  <!-- Log sale sheet -->
+  <dialog id="addSheet" class="sheet">
+    <form id="addForm" method="dialog">
+      <h2>Log a sale</h2>
+      <label>Amount
+        <input name="amount" type="number" inputmode="decimal" step="0.01" min="0.01" required placeholder="49.99">
+      </label>
+      <label>Beat / product
+        <input name="beat" type="text" list="beatOptions" maxlength="60" placeholder="e.g. Midnight Drive (lease)">
+        <datalist id="beatOptions"></datalist>
+      </label>
+      <label>Where
+        <select name="source">
+          <option>BeatStars</option>
+          <option>Stripe</option>
+          <option>PayPal</option>
+          <option>Cash App</option>
+          <option>Cash</option>
+          <option>Other</option>
+        </select>
+      </label>
+      <label>Date
+        <input name="date" type="date" required>
+      </label>
+      <div class="row">
+        <button type="button" class="btn ghost" data-close>Cancel</button>
+        <button type="submit" class="btn primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Settings sheet -->
+  <dialog id="settingsSheet" class="sheet">
+    <form id="settingsForm" method="dialog">
+      <h2>Settings</h2>
+      <label>Monthly goal
+        <input name="goal" type="number" inputmode="decimal" min="1" step="1" required>
+      </label>
+      <label>Currency symbol
+        <input name="currency" type="text" maxlength="3" required>
+      </label>
+      <label class="check">
+        <input name="notify" type="checkbox"> Milestone notifications (25 / 50 / 75 / 100%)
+      </label>
+      <div class="row wrap">
+        <button type="button" class="btn ghost" id="exportCsv">Export CSV</button>
+        <button type="button" class="btn ghost" id="exportJson">Backup</button>
+        <label class="btn ghost file">Restore<input type="file" id="importJson" accept="application/json" hidden></label>
+      </div>
+      <div class="row">
+        <button type="button" class="btn ghost" data-close>Close</button>
+        <button type="submit" class="btn primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
